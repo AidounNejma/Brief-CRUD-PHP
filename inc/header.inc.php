@@ -14,27 +14,35 @@ require_once "init.inc.php";
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
+
 <ul class="navbar navbar-dark bg-dark">
+
 <?php if( !userConnect() ) : 
                         ?>
+
                     <li class="nav-item">
                         <a class="nav-link text-light" href="<?php echo URL ?>register.php">Inscription</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-light" href="<?= URL?>login.php">Connexion</a>
                     </li>
                     <?php else : if(adminConnect()) {
                     ?>
-                      <li class="nav-item">
-                        <a class="nav-link text-light" href="<?= URL?>gestion.php">Gestion des profils</a>
-                    </li><?php
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="<?= URL?>gestion.php">Gestion des profils</a>
+                        </li>
+                    <?php
                     }
                     ?>
                     <li class="nav-item">
                         <a class="nav-link text-light" href="<?= URL?>profile.php">Profil</a>
                     </li>
+
                     <li class="nav-item">
                         <a class="nav-link text-light" href="<?= URL?>login.php?action=deconnexion">Deconnexion</a>
                     </li>
-                    <?php endif; ?>
+
+                    <?php endif; 
+?>
 </ul>
