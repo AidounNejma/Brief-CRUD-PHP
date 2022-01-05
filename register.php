@@ -10,10 +10,11 @@ if ($_POST) {
     if (strlen( $_POST['prenom'] ) <= 3 || strlen( $_POST['prenom'] ) > 15 ){
         $error .= '<div class="alert alert-danger"> Erreur taille prenom (doit etre compris entre 3 et 15 caractères)</div>';
     }
+    if (isset ($_POST["mail"])){
     $position_arobase = strpos($_POST['mail'], '@');
     if ($position_arobase === false){
             $error .= '<p>Votre email doit comporter un arobase.</p>';
-        }
+        }}
     if (strlen( $_POST['mdp'] ) <= 3 || strlen( $_POST['mdp'] ) > 15 ){
             $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
         }
@@ -27,22 +28,57 @@ if ($_POST) {
 
             $_POST[$indice] = htmlentities( addslashes($valeur) );
     }
+    
+    if ($_POST["nom"] ) {
+        $nom = $_POST["nom"];
+    }
+    else { 
+        $nom = "";
+    }
+    
+    if ($_POST["email"] ) {
+        $email = $_POST["email"];
+    }
+    else { 
+        $email = "";
+    }
+  
+    $r = execute_requete(" SELECT nom FROM users WHERE nom = '$nom' ");
+       
+
+    if( $r->rowCount() >= 1 ){ 
+
+        $error .= "<div class='alert alert-danger'> Nom indisponible </div>";
+    }
+    $f = execute_requete(" SELECT email FROM users WHERE email = '$email' ");
+
+    if( $f->rowCount() >= 1 ){ 
+
+        $error .= "<div class='alert alert-danger'> Email indisponible </div>";
+    }
+
+
     if ( empty($error)  ) {
-        execute_requete ("INSERT INTO users (nom,prenom,password,numtel,age,sexe,email ) 
+        execute_requete ("INSERT INTO users (nom,prenom,mdp,numtel,age,sexe,email ) 
         VALUES ( 
-            '$_POST[nom]',
+            '$nom',
             '$_POST[prenom]',
             '$_POST[mdp]',
             '$_POST[numtel]',
             '$_POST[age]',
             '$_POST[sexe]',
-            '$_POST[email]'
+            '$email'
             )
         ");
+
+$content .= "<div class='alert alert-success'>Inscription validée
+<a href='". URL ."login.php' >Cliquez ici pour vous connecter </a>
+    </div>";
     }
 
-
     }
+   
+
 ?>
 
 <h1 class="text-center">INSCRIPTION</h1>
@@ -77,14 +113,14 @@ if ($_POST) {
     <label class="text-center">Civilité</label>
     <div class="d-flex justify-content-center">
     <div class="d-flex now-wrap">
-        <input type="radio" name="sexe" value="f" checked >Femme
+        <input type="radio" name="sexe" value="Femme" >Femme
     </div>
     <br>
     <div class="d-flex now-wrap">
-        <input type="radio" name="sexe" value="m" > Homme
+        <input type="radio" name="sexe" value="Homme" > Homme
     </div>
     <div class="d-flex now-wrap">
-        <input type="radio" name="sexe" value="autre" > Autre
+        <input type="radio" name="sexe" value="Autre" > Autre
     </div>
     </div>
     <br><br>

@@ -6,7 +6,7 @@ session_start();
 $pdo = new PDO('mysql:host=localhost; dbname=my_site','root', '', array(PDO::ATTR_ERRMODE=>PDO::ERRMODE_WARNING, PDO::MYSQL_ATTR_INIT_COMMAND=>"SET NAMES UTF8"));
 
 //définition d'une constante qui correspondra à l'url de la racine de notre site
-define('URL', "http://localhost/my_site/");
+define('URL', "http://localhost/test/Brief-CRUD-PHP/");
 
 // définition de variables:
 $content = '';
