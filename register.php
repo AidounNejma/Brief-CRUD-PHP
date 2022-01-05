@@ -17,12 +17,28 @@ if ($_POST) {
     if (strlen( $_POST['mdp'] ) <= 3 || strlen( $_POST['mdp'] ) > 15 ){
             $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
         }
+    if (strlen( $_POST['numtel'] ) != 10 ){
+            $error .= '<div class="alert alert-danger"> Erreur taille Numero de telephone incorect (doit etre de 10 caractères)</div>';
+    }
 
         $_POST['mdp'] = password_hash( $_POST['mdp'] , PASSWORD_DEFAULT );
     
     foreach( $_POST as $indice => $valeur ){
 
             $_POST[$indice] = htmlentities( addslashes($valeur) );
+    }
+    if ( empty($error)  ) {
+        execute_requete ("INSERT INTO users (nom,prenom,password,numtel,age,sexe,email ) 
+        VALUES ( 
+            '$_POST[nom]',
+            '$_POST[prenom]',
+            '$_POST[mdp]',
+            '$_POST[numtel]',
+            '$_POST[age]',
+            '$_POST[sexe]',
+            '$_POST[email]'
+            )
+        ");
     }
 
 
@@ -40,21 +56,23 @@ if ($_POST) {
 <div class='d-flex justify-content-center'>
 <div class='d-flex flex-column bd-highlight mb-3'>
 
-<label class="text-center">Email</label>
-    <input type="text" name="mail"><br>
-  
-
     <label class="text-center">Nom</label>
     <input type="text" name="nom"><br>
 
     <label class="text-center">Prenom</label>
     <input type="text" name="prenom"><br>
 
+    <label class="text-center">Age</label>
+    <input type="number" name="age"><br>
+
     <label class="text-center">Mot de passe</label>
     <input  type="password" name="mdp"><br>   
 
     <label class="text-center">Email</label>
     <input type="text" name="email"><br>
+
+    <label class="text-center">Numero de telephone</label>
+    <input type="text" name="numtel"><br>
 
     <label class="text-center">Civilité</label>
     <div class="d-flex justify-content-center">
