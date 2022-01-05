@@ -84,9 +84,17 @@ if ($_POST) {
             )
         ");
 
-        $content .= "<div class='alert alert-success'>Inscription validée
-                        <a href='" . URL . "login.php' >Cliquez ici pour vous connecter </a>
-                    </div>";
+        $content .= '
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-success d-flex align-items-center" role="alert">
+                    <div>
+                        <p>Inscription validée</p>
+                        <a href="' . URL . 'login.php" >Cliquez ici pour vous connecter </a>
+                    </div>
+            </div>
+        </div>
+        ';
+                    
     }
 }
 
@@ -95,11 +103,9 @@ if ($_POST) {
 <h1 class="text-center">INSCRIPTION</h1>
 <br>
 
-<?php echo $error; //affichage des messages d'erreur 
-?>
+<?php echo $error; //affichage des messages d'erreur ?>
 
-<?= $content; //afficahge du contenu 
-?>
+<?= $content; //afficahge du contenu ?>
 
 <form method="post">
     <div class='d-flex justify-content-center'>

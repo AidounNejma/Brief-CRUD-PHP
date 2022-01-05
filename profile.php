@@ -11,17 +11,9 @@ require_once "inc/header.inc.php"
         exit;
     }
 
-// -------------------------------------------------------------------
-    if (adminConnect()) {
-
-        $content .= "<h2 class='text-center' style = 'color:tomato'>ADMINISTRATEUR</h2>";
-    }
-
-// -------------------------------------------------------------------
-
     $prenom = $_SESSION['users']['prenom'];
 
-    $content .= "<h3 class='text-center'> Vos informartions personnelles </h3>";
+    $content .= "<h3 class='text-center'> Vos informations personnelles :</h3>";
 
     $content .= "<p class='text-center'>Votre prénom: " . $_SESSION['users']['prenom'] . "</p>";
     $content .= "<p class='text-center'>Votre nom: " . $_SESSION['users']['nom'] . "</p>";
@@ -31,7 +23,14 @@ require_once "inc/header.inc.php"
 
 ?>
 
-    <h1 class="text-center">PROFIL</h1>
+    <h1 class="text-center">PROFIL 
+    <?php  
+        if (adminConnect()) {
+
+            echo "<span class='text-center' style = 'color:tomato'>ADMINISTRATEUR</span>";
+        }
+    ?>
+    </h1>
 
     <h2 class="text-center">Bonjour, <?= $prenom ?></h2>
 
