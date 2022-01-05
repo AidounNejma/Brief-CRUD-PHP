@@ -3,6 +3,20 @@ require_once "inc/header.inc.php"
 ?>
 
 <?php
+
+if(isset($_GET['action']) && $_GET['action'] == 'deconnexion'){
+    session_destroy(); 
+    header('location:login.php');
+
+}
+
+if(userConnect()){
+    
+    header ('location:profile.php');
+    exit; 
+}
+
+
 if ($_POST)  {  
     if ($_POST["email"] ) {
         $email = $_POST["email"];
@@ -28,7 +42,7 @@ if ($_POST)  {
 
      }
      else{ 
-          $error.="<div class='alert alert-danger'> Pseudo incorrect ! </div>";
+          $error.="<div class='alert alert-danger'> Veuillez saisir un email ! </div>";
      }
         }
         

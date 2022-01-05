@@ -21,10 +21,22 @@ if ($_POST) {
     if (strlen( $_POST['mdp'] ) <= 3 || strlen( $_POST['mdp'] ) > 15 ){
             $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
         }
+    
     if (strlen( $_POST['numtel'] ) != 10 ){
             $error .= '<div class="alert alert-danger"> Erreur taille Numero de telephone incorect (doit etre de 10 caractères)</div>';
     }
+    if (!is_numeric($_POST['numtel'])) {
 
+        $error .= '
+        <div class="d-flex justify-content-center">
+            <div class="alert alert-danger d-flex align-items-center" role="alert">
+                    <div>
+                        Vous devez saisir un nombre !
+                    </div>
+            </div>
+        </div>
+        ';
+    }
         $_POST['mdp'] = password_hash( $_POST['mdp'] , PASSWORD_DEFAULT );
     
     foreach( $_POST as $indice => $valeur ){

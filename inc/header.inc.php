@@ -11,26 +11,30 @@ require_once "init.inc.php";
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Mont site</title>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 </head>
 <body>
 <ul class="navbar navbar-dark bg-dark">
-  <li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">Active</a>
-  </li>
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Dropdown</a>
-    <ul class="dropdown-menu">
-      <li><a class="dropdown-item" href="#">Action</a></li>
-      <li><a class="dropdown-item" href="#">Another action</a></li>
-      <li><a class="dropdown-item" href="#">Something else here</a></li>
-      <li><hr class="dropdown-divider"></li>
-      <li><a class="dropdown-item" href="#">Separated link</a></li>
-    </ul>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link" href="#">Link</a>
-  </li>
-  <li class="nav-item">
-    <a class="nav-link disabled">Disabled</a>
-  </li>
+<?php if( !userConnect() ) : 
+                        ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="<?php echo URL ?>register.php">Inscription</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="<?= URL?>login.php">Connexion</a>
+                    </li>
+                    <?php else : if(adminConnect()) {
+                    ?>
+                      <li class="nav-item">
+                        <a class="nav-link text-light" href="<?= URL?>gestion.php">Gestion des profils</a>
+                    </li><?php
+                    }
+                    ?>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="<?= URL?>profile.php">Profil</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-light" href="<?= URL?>login.php?action=deconnexion">Deconnexion</a>
+                    </li>
+                    <?php endif; ?>
 </ul>
