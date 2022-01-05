@@ -10,11 +10,14 @@ if ($_POST) {
     if (strlen( $_POST['prenom'] ) <= 3 || strlen( $_POST['prenom'] ) > 15 ){
         $error .= '<div class="alert alert-danger"> Erreur taille prenom (doit etre compris entre 3 et 15 caractères)</div>';
     }
-    if (isset ($_POST["mail"])){
-    $position_arobase = strpos($_POST['mail'], '@');
-    if ($position_arobase === false){
-            $error .= '<p>Votre email doit comporter un arobase.</p>';
-        }}
+    if (isset ($_POST["email"])){
+    
+    $email = $_POST["email"];
+    
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error .= '<div class="alert alert-danger"> Adresse email pas valide </div>';
+    }
+    }
     if (strlen( $_POST['mdp'] ) <= 3 || strlen( $_POST['mdp'] ) > 15 ){
             $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
         }
@@ -36,12 +39,6 @@ if ($_POST) {
         $nom = "";
     }
     
-    if ($_POST["email"] ) {
-        $email = $_POST["email"];
-    }
-    else { 
-        $email = "";
-    }
   
     $r = execute_requete(" SELECT nom FROM users WHERE nom = '$nom' ");
        

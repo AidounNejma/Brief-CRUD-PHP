@@ -2,20 +2,39 @@
 require_once "inc/header.inc.php"
 ?>
 
+<?php
+if ($_POST)  {  
+    if ($_POST["email"] ) {
+        $email = $_POST["email"];
+        $r = execute_requete(" SELECT * FROM users WHERE email = '$email' ");
 
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+        if( $r->rowCount() >= 1 ){ 
+            $users = $r->fetch(PDO::FETCH_ASSOC);
+            
+            if(password_verify($_POST['mdp'],$users['mdp'])){
+           
+                $_SESSION['users'] = $users;
+                debug($_SESSION);
     
-</body>
-</html>
+      
+            
+             header('location:profile.php');
+             exit;
+
+         }
+         else{
+             $error.="<div class='alert alert-danger'> Mot de passe incorrect !</div>";
+          }
+
+     }
+     else{ 
+          $error.="<div class='alert alert-danger'> Pseudo incorrect ! </div>";
+     }
+        }
+        
+}
+    
+     
 
 
 
@@ -24,9 +43,29 @@ require_once "inc/header.inc.php"
 
 
 
+?>
 
 
 
+<h1 class="text-center">CONNEXION</h1>
+<br><br>
+
+<?= $error; //Affichage des erreurs. ?>
+<div class='d-flex justify-content-center'>
+<div class='d-flex flex-column bd-highlight mb-3'>
+<form method="post">
+    <label class="p-2 bd-highlight">Mail</label>
+    <input class="p-2 bd-highlight" type="text" name="email" placeholder="Votre adresse mail"><br><br>
+
+    <label class="p-2 bd-highlight">Mot de passe</label>
+    <input class="p-2 bd-highlight"  type="password" name="mdp" placeholder="Votre mot de passe"><br><br>
+<div class="d-flex justify-content-center">
+    <input type="submit" value="Se connecter" class="btn btn-secondary text-center p-2 bd-highlight">
+</div>
+<br><br>
+</form>
+</div>
+</div>
 
 
 
