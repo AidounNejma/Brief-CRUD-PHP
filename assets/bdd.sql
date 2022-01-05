@@ -9,6 +9,7 @@ CREATE TABLE users (
     email varchar(50) NOT NULL,
     numtel int(10) unsigned zerofill NOT NULL,
     mdp varchar(300) NOT NULL,
+    age int(2) unsigned zerofill NOT NULL,
     sexe enum('Femme','Homme', 'Autre') NOT NULL,
     statut int(1) NOT NULL DEFAULT 0,
     PRIMARY KEY  (id_user),

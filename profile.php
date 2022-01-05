@@ -14,20 +14,20 @@ require_once "inc/header.inc.php"
 // -------------------------------------------------------------------
     if (adminConnect()) {
 
-        $content .= "<h2 style = 'color:tomato'>ADMINISTRATEUR</h2>";
+        $content .= "<h2 class='text-center' style = 'color:tomato'>ADMINISTRATEUR</h2>";
     }
 
 // -------------------------------------------------------------------
 
     $prenom = $_SESSION['users']['prenom'];
 
-    $content .= "<h3> Vos informartions personnelles </h3>";
+    $content .= "<h3 class='text-center'> Vos informartions personnelles </h3>";
 
-    $content .= "<p>Votre prénom: " . $_SESSION['users']['prenom'] . "</p>";
-    $content .= "<p>Votre nom: " . $_SESSION['users']['nom'] . "</p>";
-    $content .= "<p>Votre email: " . $_SESSION['users']['email'] . "</p>";
-    $content .= "<p>Votre sexe: " . $_SESSION['users']['sexe'] . "</p>";
-    $content .= "<p>Votre numero de telephone: " . $_SESSION['users']['numtel'] . "</p>";
+    $content .= "<p class='text-center'>Votre prénom: " . $_SESSION['users']['prenom'] . "</p>";
+    $content .= "<p class='text-center'>Votre nom: " . $_SESSION['users']['nom'] . "</p>";
+    $content .= "<p class='text-center'>Votre email: " . $_SESSION['users']['email'] . "</p>";
+    $content .= "<p class='text-center'>Votre sexe: " . $_SESSION['users']['sexe'] . "</p>";
+    $content .= "<p class='text-center'>Votre numero de telephone: " . $_SESSION['users']['numtel'] . "</p>";
 
 ?>
 
