@@ -4,129 +4,127 @@ require_once "inc/header.inc.php";
 ?>
 
 <?php
-$statut = 0;
-$titre = "Inscription";
-$bouton = "S'inscrire";
-if(adminConnect()){
-    $titre = "Ajout d'un profil";
-    $bouton = "Ajouter profil";
-}
-if ($_POST) {
-    
-    if (strlen($_POST['nom']) <= 3 || strlen($_POST['nom']) > 15) {
-        $error .= '<div class="alert alert-danger"> Erreur taille nom (doit etre compris entre 3 et 15 caractères)</div>';
-    }
-
-    if (strlen($_POST['prenom']) <= 3 || strlen($_POST['prenom']) > 15) {
-        $error .= '<div class="alert alert-danger"> Erreur taille prenom (doit etre compris entre 3 et 15 caractères)</div>';
-    }
-
-    if (isset($_POST["email"])) {
-
-        $email = $_POST["email"];
-
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $error .= '<div class="alert alert-danger"> Adresse email pas valide </div>';
-        }
-    }
-
-    if (strlen($_POST['mdp']) <= 3 || strlen($_POST['mdp']) > 15) {
-        $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
-    }
-
-    if (strlen($_POST['numtel']) != 10) {
-        $error .= '<div class="alert alert-danger"> Erreur taille Numero de telephone incorect (doit etre de 10 caractères)</div>';
-    }
-
-    if (!is_numeric($_POST['numtel'])) {
-
-        $error .= '
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-danger d-flex align-items-center" role="alert">
-                    <div>
-                        Vous devez saisir un nombre !
-                    </div>
-            </div>
-        </div>
-        ';
-    }
-
-    $_POST['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
-
-    foreach ($_POST as $indice => $valeur) {
-
-        $_POST[$indice] = htmlentities(addslashes($valeur));
-    }
-
-    if ($_POST["nom"]) {
-        $nom = $_POST["nom"];
-    } else {
-        $nom = "";
-    }
-
-
-
-
-    $r = execute_requete(" SELECT nom FROM users WHERE nom = '$nom' ");
-
-    if ($r->rowCount() >= 1) {
-
-        $error .= "<div class='alert alert-danger'> Nom indisponible </div>";
-    }
-
-    $f = execute_requete(" SELECT email FROM users WHERE email = '$email' ");
-
-    if ($f->rowCount() >= 1) {
-
-        $error .= "<div class='alert alert-danger'> Email indisponible </div>";
-    }
-
-    
+    $statut = 0;
+    $titre = "Inscription";
+    $bouton = "S'inscrire";
     if(adminConnect()){
-        $statut = $_POST['statut'];
-        
+        $titre = "Ajout d'un profil";
+        $bouton = "Ajouter profil";
     }
+    if ($_POST) {
+        
+        if (strlen($_POST['nom']) <= 3 || strlen($_POST['nom']) > 15) {
+            $error .= '<div class="alert alert-danger"> Erreur taille nom (doit etre compris entre 3 et 15 caractères)</div>';
+        }
 
-    if (empty($error)) {
-        execute_requete("INSERT INTO users (nom,prenom,mdp,numtel,age,sexe,email,statut ) 
-        VALUES ( 
-            '$nom',
-            '$_POST[prenom]',
-            '$_POST[mdp]',
-            '$_POST[numtel]',
-            '$_POST[age]',
-            '$_POST[sexe]',
-            '$email',
-            '$statut'
-            )
-        ");
-        if(adminConnect()){
-            $content .= '
+        if (strlen($_POST['prenom']) <= 3 || strlen($_POST['prenom']) > 15) {
+            $error .= '<div class="alert alert-danger"> Erreur taille prenom (doit etre compris entre 3 et 15 caractères)</div>';
+        }
+
+        if (isset($_POST["email"])) {
+
+            $email = $_POST["email"];
+
+            if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                $error .= '<div class="alert alert-danger"> Adresse email pas valide </div>';
+            }
+        }
+
+        if (strlen($_POST['mdp']) <= 3 || strlen($_POST['mdp']) > 15) {
+            $error .= '<div class="alert alert-danger"> Erreur taille Mot de passe (doit etre compris entre 3 et 15 caractères)</div>';
+        }
+
+        if (strlen($_POST['numtel']) != 10) {
+            $error .= '<div class="alert alert-danger"> Erreur taille Numero de telephone incorect (doit etre de 10 caractères)</div>';
+        }
+
+        if (!is_numeric($_POST['numtel'])) {
+
+            $error .= '
             <div class="d-flex justify-content-center">
-                <div class="alert alert-success d-flex align-items-center" role="alert">
+                <div class="alert alert-danger d-flex align-items-center" role="alert">
                         <div>
-                            <p>Profil bien ajouté</p>
-                            <a href="' . URL . 'gestion.php" >Cliquez ici pour voir votre ajout </a>
+                            Vous devez saisir un nombre !
                         </div>
                 </div>
             </div>
             ';
         }
-        else {
-        $content .= '
-        <div class="d-flex justify-content-center">
-            <div class="alert alert-success d-flex align-items-center" role="alert">
-                    <div>
-                        <p>Inscription validée</p>
-                        <a href="' . URL . 'login.php" >Cliquez ici pour vous connecter </a>
+
+        $_POST['mdp'] = password_hash($_POST['mdp'], PASSWORD_DEFAULT);
+
+        foreach ($_POST as $indice => $valeur) {
+
+            $_POST[$indice] = htmlentities(addslashes($valeur));
+        }
+
+        if ($_POST["nom"]) {
+            $nom = $_POST["nom"];
+        } else {
+            $nom = "";
+        }
+
+        $r = execute_requete(" SELECT nom FROM users WHERE nom = '$nom' ");
+
+        if ($r->rowCount() >= 1) {
+
+            $error .= "<div class='alert alert-danger'> Nom indisponible </div>";
+        }
+
+        $f = execute_requete(" SELECT email FROM users WHERE email = '$email' ");
+
+        if ($f->rowCount() >= 1) {
+
+            $error .= "<div class='alert alert-danger'> Email indisponible </div>";
+        }
+
+        
+        if(adminConnect()){
+            $statut = $_POST['statut'];
+            
+        }
+
+        if (empty($error)) {
+            execute_requete("INSERT INTO users (nom,prenom,mdp,numtel,age,sexe,email,statut ) 
+                VALUES ( 
+                    '$nom',
+                    '$_POST[prenom]',
+                    '$_POST[mdp]',
+                    '$_POST[numtel]',
+                    '$_POST[age]',
+                    '$_POST[sexe]',
+                    '$email',
+                    '$statut'
+                    )
+                ");
+            
+            if(adminConnect()){
+                $content .= '
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <div>
+                                <p>Profil bien ajouté</p>
+                                <a href="' . URL . 'gestion.php" >Cliquez ici pour voir votre ajout </a>
+                            </div>
                     </div>
-            </div>
-        </div>
-        ';
-                    
+                </div>
+                ';
+            }
+            else {
+                $content .= '
+                <div class="d-flex justify-content-center">
+                    <div class="alert alert-success d-flex align-items-center" role="alert">
+                            <div>
+                                <p>Inscription validée</p>
+                                <a href="' . URL . 'login.php" >Cliquez ici pour vous connecter </a>
+                            </div>
+                    </div>
+                </div>
+                ';
+                        
+        }
     }
-}
-}
+    }
 
 ?>
 
@@ -172,15 +170,13 @@ if ($_POST) {
                     <input type="radio" name="sexe" value="Autre"> Autre
                 </div>
             </div>
+            <?php if(adminConnect()) : ?>
+                <label>Statut</label><br>
+                <select name="statut">
+                    <option value="0" <?php if( $statut == 0 ) echo 'selected'; ?>  > Membre </option>
+                    <option value="1" <?php if( $statut == 1 ) echo 'selected'; ?>  > Admin </option>
+                </select>
             <?php 
-            if(adminConnect()) :
-                ?>
-                        <label>Statut</label><br>
-    <select name="statut">
-        <option value="0" <?php if( $statut == 0 ) echo 'selected'; ?>  > Membre </option>
-        <option value="1" <?php if( $statut == 1 ) echo 'selected'; ?>  > Admin </option>
-    </select>
-        <?php 
         endif 
         ?>  
             <br><br>
