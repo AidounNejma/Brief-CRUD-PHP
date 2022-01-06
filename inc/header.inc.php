@@ -32,6 +32,9 @@ require_once "init.inc.php";
                         <li class="nav-item">
                             <a class="nav-link text-light" href="<?= URL?>gestion.php">Gestion des profils</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-light" href="<?= URL?>register.php">Creation de profil</a>
+                        </li>
                     <?php
                     }
                     ?>

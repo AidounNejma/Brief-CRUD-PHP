@@ -15,3 +15,14 @@ CREATE TABLE users (
     PRIMARY KEY  (id_user),
     UNIQUE KEY email (email)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 ;
+
+
+ALTER TABLE apprenants (
+    
+)
+
+UPDATE apprenants SET numero = 1 WHERE numero = 2;
+
+INSERT INTO apprenants VALUES('POLO', 'John', 26, 1);
+
+DELETE FROM apprenants WHERE numero = 1 

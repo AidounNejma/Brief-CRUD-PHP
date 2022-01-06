@@ -1,8 +1,16 @@
 <?php
 require_once "inc/header.inc.php";
+
 ?>
 
 <?php
+$statut = 0;
+$titre = "Inscription";
+$bouton = "S'inscrire";
+if(adminConnect()){
+    $titre = "Ajout d'un profil";
+    $bouton = "Ajouter profil";
+}
 if ($_POST) {
     
     if (strlen($_POST['nom']) <= 3 || strlen($_POST['nom']) > 15) {
@@ -56,6 +64,9 @@ if ($_POST) {
         $nom = "";
     }
 
+
+
+
     $r = execute_requete(" SELECT nom FROM users WHERE nom = '$nom' ");
 
     if ($r->rowCount() >= 1) {
@@ -70,9 +81,14 @@ if ($_POST) {
         $error .= "<div class='alert alert-danger'> Email indisponible </div>";
     }
 
+    
+    if(adminConnect()){
+        $statut = $_POST['statut'];
+        
+    }
 
     if (empty($error)) {
-        execute_requete("INSERT INTO users (nom,prenom,mdp,numtel,age,sexe,email ) 
+        execute_requete("INSERT INTO users (nom,prenom,mdp,numtel,age,sexe,email,statut ) 
         VALUES ( 
             '$nom',
             '$_POST[prenom]',
@@ -80,10 +96,23 @@ if ($_POST) {
             '$_POST[numtel]',
             '$_POST[age]',
             '$_POST[sexe]',
-            '$email'
+            '$email',
+            '$statut'
             )
         ");
-
+        if(adminConnect()){
+            $content .= '
+            <div class="d-flex justify-content-center">
+                <div class="alert alert-success d-flex align-items-center" role="alert">
+                        <div>
+                            <p>Profil bien ajouté</p>
+                            <a href="' . URL . 'gestion.php" >Cliquez ici pour voir votre ajout </a>
+                        </div>
+                </div>
+            </div>
+            ';
+        }
+        else {
         $content .= '
         <div class="d-flex justify-content-center">
             <div class="alert alert-success d-flex align-items-center" role="alert">
@@ -97,10 +126,11 @@ if ($_POST) {
                     
     }
 }
+}
 
 ?>
 
-<h1 class="text-center">INSCRIPTION</h1>
+<h1 class="text-center"><?php echo($titre) ?></h1>
 <br>
 
 <?php echo $error; //affichage des messages d'erreur ?>
@@ -142,9 +172,20 @@ if ($_POST) {
                     <input type="radio" name="sexe" value="Autre"> Autre
                 </div>
             </div>
+            <?php 
+            if(adminConnect()) :
+                ?>
+                        <label>Statut</label><br>
+    <select name="statut">
+        <option value="0" <?php if( $statut == 0 ) echo 'selected'; ?>  > Membre </option>
+        <option value="1" <?php if( $statut == 1 ) echo 'selected'; ?>  > Admin </option>
+    </select>
+        <?php 
+        endif 
+        ?>  
             <br><br>
 
-            <input type="submit" class="btn btn-secondary" value="S'inscrire">
+            <input type="submit" class="btn btn-secondary" value="<?php echo($bouton); ?>" >
 
 </form>
 </div>

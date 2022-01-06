@@ -5,7 +5,7 @@ $prenom = $_SESSION['users']['prenom'];
 
 <h1 class="text-center">Gestion des utilisateurs</h1>
 
-<h2 class="text-center">Bonjour, oh grande <?= $prenom ?></h2>
+<h2 class="text-center">Bonjour, oh Grand <?= $prenom ?></h2>
 
 
 <?php
@@ -78,8 +78,80 @@ $prenom = $_SESSION['users']['prenom'];
 ?>
 
 <?php echo $error; //affichage des erreurs ?>
-<?php //if(isset($_GET['action']) && ($_GET['action'] == 'ajout'|| $_GET['action'] == 'modification')): ?>
-<?= $content;  ?>
+<?php if(isset($_GET['action']) && $_GET['action'] == 'modification'): 
+    $recup =  execute_requete ("SELECT nom,prenom,email,age,sexe,statut,numtel FROM users WHERE id_user = $_GET[id_user]");
+    $amodifier = $recup->fetch(PDO:: FETCH_ASSOC); 
+    $nom = $amodifier["nom"];
+    $prenom = $amodifier["prenom"];
+    $email = $amodifier["email"];
+    $numtel = $amodifier["numtel"];
+    $sexe = $amodifier["sexe"];
+    $age = $amodifier["age"];
+    $statut = $amodifier["statut"];
+
+    if ( $_POST){
+        execute_requete ("UPDATE users SET
+         nom = '$_POST[nom]',
+         prenom = '$_POST[prenom]',
+         age = '$_POST[age]',
+        email = '$_POST[email]',
+        numtel = '$_POST[numtel]',
+        sexe = '$_POST[sexe]',
+        statut = '$_POST[statut]' 
+        WHERE id_user='$_GET[id_user]' ");
+        header('location:gestion.php');
+    }
+    
+    ?>
+    <form method="post">
+    <div class='d-flex justify-content-center'>
+        <div class='d-flex flex-column bd-highlight mb-3'>
+
+            <label class="text-center">Nom</label>
+            <input type="text" name="nom" value="<?= $nom ?>"><br>
+
+            <label class="text-center">Prenom</label>
+            <input type="text" name="prenom" value="<?= $prenom ?>"> <br>
+
+            <label class="text-center">Age</label>
+            <input type="number" name="age" value="<?= $age ?>"><br>
+
+            <label class="text-center">Email</label>
+            <input type="text" name="email" value="<?= $email ?>"><br>
+
+            <label class="text-center">Numero de telephone</label>
+            <input type="text" name="numtel" value="<?= $numtel ?>"><br>
+
+            
+    <label>Sexe</label><br>
+    <input type="radio" name="sexe" value="Femme" <?php echo ( $sexe == 'Femme') ? 'checked' : ''; ?> > Femme <br>
+    <input type="radio" name="sexe" value="Homme" <?php echo ( $sexe == 'Homme') ? 'checked' : ''; ?> > Homme <br>
+    <input type="radio" name="sexe" value="Autre" <?php echo ( $sexe == 'Autre') ? 'checked' : ''; ?> > Autre <br><br>
+            <div>
+            <label for="statut">Choose a Statut:</label>
+
+            <label>Statut</label><br>
+    <select name="statut">
+        <option value="0" <?php if( $statut == 0 ) echo 'selected'; ?>  > Membre </option>
+        <option value="1" <?php if( $statut == 1 ) echo 'selected'; ?>  > Admin </option>
+    </select><br><br>
+
+            </div>  
+            <br>
+            <br><br>
+
+            <input type="submit" class="btn btn-secondary" value="Modifier">
+            </form>
+</div>
+</div>
+<?php 
+endif
+?>
+
+<?= $content; 
+
+
+?>
 
 
 <?php require_once "inc/footer.inc.php";?>
