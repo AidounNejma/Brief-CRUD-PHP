@@ -7,10 +7,12 @@ require_once "inc/header.inc.php";
     $statut = 0;
     $titre = "Inscription";
     $bouton = "S'inscrire";
+    
     if(adminConnect()){
         $titre = "Ajout d'un profil";
         $bouton = "Ajouter profil";
     }
+    
     if ($_POST) {
         
         if (strlen($_POST['nom']) <= 3 || strlen($_POST['nom']) > 15) {
